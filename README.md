@@ -8,6 +8,7 @@
 minikube start
 ```
 
+
 ## Добавление токена авторизации GitHub
 
 [Получение токена](https://github.com/settings/tokens/new)
@@ -15,6 +16,7 @@ minikube start
 ```bash
 kubectl create secret docker-registry ghcr --docker-server=https://ghcr.io --docker-username=<github_username> --docker-password=<github_token> -n default
 ```
+
 
 ## Установка API GW kusk
 
@@ -42,6 +44,7 @@ image:
 ## Настройка terraform
 
 [Установите Terraform](https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-quickstart#install-terraform)
+
 
 Создайте файл ~/.terraformrc
 
@@ -77,6 +80,7 @@ kusk deploy -i api.yaml
 kubectl port-forward svc/kusk-gateway-envoy-fleet -n kusk-system 8080:80
 curl localhost:8080/hello
 ```
+
 
 ## Delete minikube
 
