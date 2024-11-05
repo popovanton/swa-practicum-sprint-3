@@ -55,9 +55,8 @@
         - Приложение обращается не напрямую в БД, а на балансировщик, установленный перед ней, а сам кластер базы данных дополняется репликами на чтение.  
   ```
 
-  ```
     5. Визуализируйте контекст системы.
-  ```
+  
     [файл puml](https://github.com/popovanton/swa-practicum-sprint-3/blob/sprint_3/puml/Context_monolith_part1_task1.puml)
     ![Контекст системы для первого задания](https://github.com/popovanton/swa-practicum-sprint-3/blob/sprint_3/task1_context.png?raw=true)
 
