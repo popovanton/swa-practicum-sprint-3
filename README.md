@@ -57,8 +57,8 @@
 
   ```
     5. Визуализируйте контекст системы.
-    [файл puml](/puml/Context_monolith_part1_task1.puml)
-    ![Контекст системы для первого задания](task1_context.png)
+    [[файл puml](/puml/Context_monolith_part1_task1.puml)](https://github.com/popovanton/swa-practicum-sprint-3/blob/sprint_3/puml/Context_monolith_part1_task1.puml)
+    ![Контекст системы для первого задания](https://github.com/popovanton/swa-practicum-sprint-3/blob/sprint_3/task1_context.png)
   ```
 
 
