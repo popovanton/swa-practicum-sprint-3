@@ -56,9 +56,9 @@
 
   ```
     5. Визуализируйте контекст системы.
+  ```
     [файл puml](/puml/Context_monolith_part1_task1.puml)
     ![Контекст системы для первого задания](task1_context.png)
-  ```
 
     ## Задание 2. Проектирование микросервисной архитектуры:
     [файл puml](/puml/Container_microservice_part1_task2.puml)
