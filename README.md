@@ -56,8 +56,8 @@
 
   ## Задание 2. Проектирование микросервисной архитектуры:
     [файл puml](/puml/Container_microservice_part1_task2.puml)
-    ![Визуализация архитектуры уровня контейнеров](task2_container.png)
+    ![Визуализация архитектуры уровня контейнеров](task2_container2.png)
 
   ## Задание 3. Разработка ER-диаграммы
     [файл puml](/puml/Code_microservice_part1_task3.puml)
-    ![файл puml](task3_er.png)
+    ![ER-диаграмма](task3_er.png)
