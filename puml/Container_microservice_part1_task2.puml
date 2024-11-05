@@ -1,0 +1,74 @@
+@startuml
+title SmartHome Container Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "Smart device owner")
+System(SmartHomeMonolith, "SmartHome Microservices", "SmartHome system")
+System(nginx_api, "NGINX load balancer", "NGINX load balancer")
+System(nginx_telemetry, "NGINX telemetry load balancer", "NGINX telemetry load balancer")
+
+Container_Boundary(UserDevices, "User devices") {
+  Container(device, "User's device", "User owned device")
+  Container(device_hub, "User's device hub", "Java", "Hub of all user devices")
+}
+
+Container_Boundary(SmartHomeMonolith, "SmartHome Microservices") {
+  Container(kafka, "Apache Kafka", "Apache Kafka")
+  Container(consul, "HashiCorp Consul", "HashiCorp Consul")
+
+  Container(ApiGateway, "API Gateway", "Java, Kong", "Entrypoint for all external calls")
+  Container(DeviceEntrypoint, "Device Websocket Server", "Java, Spring, Websocket", "Entrypoint for device telemetry and source of device commands")
+
+  Container(ApiAuthService, "Api Auth Service", "Java, Spring", "Authentification service for API calls")
+  Container(ApiAuthDatabase, "Api Auth Service Database", "PostgreSQL", "Stores roles and user data")
+
+  Container(DeviceAuthService, "Device Auth Service", "Java, Spring", "Authentification service for device stream")
+  Container(DeviceAuthDatabase, "Device Auth Service Database", "PostgreSQL", "Stores roles and device data")
+
+  Container(DeviceManagementApp, "Device Management Service", "Java, Spring", "Provides all services")
+  Container(DeviceManagementDatabase, "Device Management Service Database", "PostgreSQL", "Stores devices")
+
+  Container(TelemetryApp, "Telemetry Service", "Java, Spring", "Processes device telemetry")
+  Container(TelemetryDatabase, "Telemetry Service Database", "PostgreSQL", "Stores telemetry")
+}
+
+Rel(ApiGateway, consul, "Registers in Service Registry")
+Rel(ApiAuthService, consul, "Registers in Service Registry")
+Rel(DeviceAuthService, consul, "Registers in Service Registry")
+Rel(DeviceManagementApp, consul, "Registers in Service Registry")
+Rel(TelemetryApp, consul, "Registers in Service Registry")
+
+Rel(user, nginx_api, "Calls SmartHome API by mobile/desktop/browser app")
+Rel(nginx_api, ApiGateway, "Calls SmartHome API by mobile/desktop/browser app")
+
+Rel(ApiGateway, ApiAuthService, "User authentication / request authorization")
+Rel(ApiAuthService, ApiAuthDatabase, "User auth data")
+
+Rel(ApiGateway, DeviceManagementApp, "Provides API for device-related actions")
+Rel(DeviceManagementApp, DeviceManagementDatabase, "Reads/Writes device-related data")
+Rel(DeviceManagementApp, kafka, "Streams command for device / registers device")
+Rel(kafka, DeviceManagementApp, "Streams device's changed state")
+
+Rel(device, device_hub, "Sends telemetry to hub")
+Rel(device_hub, device, "Manages device")
+Rel(device_hub, nginx_telemetry, "Streams telemetry to SmartHome system")
+
+Rel(nginx_telemetry, device_hub, "Streams commands for device")
+
+Rel(nginx_telemetry, DeviceEntrypoint, "Streams telemetry to SmartHome system")
+Rel(DeviceEntrypoint, nginx_telemetry, "Streams commands for device")
+
+Rel(DeviceEntrypoint, DeviceAuthService, "Authenticates device")
+Rel(kafka, DeviceAuthService, "Add/remove device")
+Rel(DeviceAuthService, DeviceAuthDatabase, "Stores device auth data")
+Rel(DeviceEntrypoint, kafka, "Streams telemetry to Apache Kafka")
+Rel(kafka, DeviceEntrypoint, "Streams commands for device")
+Rel(kafka, TelemetryApp, "Streams telemetry to consumers")
+Rel(TelemetryApp, kafka, "Streams device state")
+
+Rel(TelemetryApp, TelemetryDatabase, "Stores device telemetry")
+
+@enduml
