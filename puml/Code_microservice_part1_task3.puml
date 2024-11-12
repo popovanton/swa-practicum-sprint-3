@@ -48,7 +48,7 @@ class TelemetryData {
   +String payload
 }
 
-User "1" -- "0..*" House
+User "0..*" -- "0..*" House
 House "1" -- "0..*" Hub
 Hub "1" -- "0..*" Device
 Device "1" -- "1" DeviceType

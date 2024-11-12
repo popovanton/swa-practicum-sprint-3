@@ -6,10 +6,15 @@ top to bottom direction
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
 Person(user, "User", "SmartHome device owner")
+System(FrontendApp, "Frontend application", "SmartHome system web application")
+System(MobileApp, "Mobile application", "SmartHome system mobile application")
 System(SmartHomeMonolith, "SmartHome Monolith", "SmartHome system")
 System(device, "User's device", "User owned device")
 
-Rel(user, SmartHomeMonolith, "Sends commands and views device status")
+Rel(user, FrontendApp, "Sends commands and views device status")
+Rel(user, MobileApp, "Sends commands and views device status")
+Rel(FrontendApp, SmartHomeMonolith, "Sends commands and views device status")
+Rel(MobileApp, SmartHomeMonolith, "Sends commands and views device status")
 Rel(SmartHomeMonolith, device, "Configures device")
 Rel(device, SmartHomeMonolith, "Provides heating system status")
 
