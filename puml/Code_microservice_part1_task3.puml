@@ -1,0 +1,58 @@
+@startuml
+title SmartHome Code Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+class User {
+  +Long id
+  +List<House> houses
+  +String passwordHash
+  +String salt
+}
+
+class House {
+  +Long id
+  +List<Hub> hubs
+  +String address
+}
+
+class Hub {
+  +Long id
+  +List<Device> devices
+  +String address
+}
+
+class Device {
+  +Long id
+  +Boolean isEnabled
+  +DeviceType deviceType
+}
+
+class DeviceType {
+  +Long id
+  +String name
+  +List<Command> commands
+}
+
+class Command {
+  +Long id
+  +String command
+}
+
+class TelemetryData {
+  +String guid
+  +LocalDateTime timestamp
+  +Device device
+  +String payload
+}
+
+User "0..*" -- "0..*" House
+House "1" -- "0..*" Hub
+Hub "1" -- "0..*" Device
+Device "1" -- "1" DeviceType
+DeviceType "1" -- "0..*" Command
+TelemetryData "1" -- "1" Device
+
+@enduml
